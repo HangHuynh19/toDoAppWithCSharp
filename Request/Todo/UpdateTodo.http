@@ -1,0 +1,12 @@
+@id=870655f4-170d-4647-adbf-15a30360b7bf
+PUT http://localhost:5262/api/v1/todos/{{id}}
+Content-Type: application/json
+
+{
+    "Name": "G",
+    "Description": "",
+    "UserID": 1,
+    "CreatedDate": "2022-04-08T08:00:00",
+    //"UpdatedDate": "2022-04-08T11:00:00",
+    "Status": 1
+}

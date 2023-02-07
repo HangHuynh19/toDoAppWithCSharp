@@ -1,0 +1,17 @@
+POST http://localhost:5262/api/v1/todos
+Content-Type: application/json
+
+{
+    "Name": "Shopping",
+    "Description": "Buy ingredients for pho",
+    "UserID": 1,
+    //"CreatedDate": "2022-04-08T08:00:00",
+    //"UpdatedDate": "2022-04-08T11:00:00",
+    "Status": 0
+}
+
+###
+GET http://localhost:5262/api/v1/todos/870655f4-170d-4647-adbf-15a30360b7bf
+
+###
+GET http://localhost:5262/api/v1/todos
