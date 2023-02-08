@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoAppWithCSharp.Contracts", "ToDoAppWithCSharp.Contracts\ToDoAppWithCSharp.Contracts.csproj", "{CCE6FFEB-D374-42E3-9451-AF0A09B9C5D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoAppWithCSharp", "ToDoAppWithCSharp\ToDoAppWithCSharp.csproj", "{BD6B9493-4D03-4AEA-9CAA-409A0EE3C709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,5 +24,13 @@ Global
 		{2134FF13-C79B-4C60-A4B4-4C6533A90779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2134FF13-C79B-4C60-A4B4-4C6533A90779}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2134FF13-C79B-4C60-A4B4-4C6533A90779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3CA75AD-3B06-4CB7-A521-EA5D02E13585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3CA75AD-3B06-4CB7-A521-EA5D02E13585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3CA75AD-3B06-4CB7-A521-EA5D02E13585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3CA75AD-3B06-4CB7-A521-EA5D02E13585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD6B9493-4D03-4AEA-9CAA-409A0EE3C709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD6B9493-4D03-4AEA-9CAA-409A0EE3C709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD6B9493-4D03-4AEA-9CAA-409A0EE3C709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD6B9493-4D03-4AEA-9CAA-409A0EE3C709}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

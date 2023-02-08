@@ -1,9 +1,12 @@
-using ToDoAppWithCSharp.Services.Todos;
+//using ToDoAppWithCSharp.Services.Todos; 
+using ToDoAppWithCSharp;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services.AddApplication(builder.Configuration);
+
     builder.Services.AddControllers();
-    builder.Services.AddScoped<ITodoService, TodoService>();
+    //builder.Services.AddScoped<ITodoService, TodoService>();
 }
 
 var app = builder.Build();
