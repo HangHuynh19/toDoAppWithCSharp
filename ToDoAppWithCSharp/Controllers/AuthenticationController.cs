@@ -1,12 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoAppWithCSharp.Contracts.Authentication;
 using ToDoAppWithCSharp.Services.Authentication;
 
 namespace ToDoAppWithCSharp.Controllers;
 
-[ApiController]
 [Route("api/v1")]
-public class AuthenticationController : ControllerBase
+[AllowAnonymous]
+public class AuthenticationController : ApiController
 {
     private readonly IAuthenticationService _authenticationService;
     public AuthenticationController(IAuthenticationService authenticationService)
