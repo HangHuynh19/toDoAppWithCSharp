@@ -1,11 +1,15 @@
-using ToDoAppWithCSharp.Services.Todos;
-using ToDoAppWithCSharp.Services.Authentication;
+//using ToDoAppWithCSharp.Services.Todos; 
+using ToDoAppWithCSharp;
+using ToDoAppWithCSharp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+    builder.Services
+        .AddApplication()
+        .AddInfrastructure();
+
     builder.Services.AddControllers();
-    builder.Services.AddScoped<ITodoService, TodoService>();
+    //builder.Services.AddScoped<ITodoService, TodoService>();
 }
 
 var app = builder.Build();

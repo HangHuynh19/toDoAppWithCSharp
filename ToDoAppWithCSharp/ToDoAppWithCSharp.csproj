@@ -2,10 +2,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDoAppWithCSharp.Contracts\ToDoAppWithCSharp.Contracts.csproj" />
+    <ProjectReference Include="..\ToDoAppWithCSharp.Infrastructure\ToDoAppWithCSharp.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ErrorOr" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <PropertyGroup>
