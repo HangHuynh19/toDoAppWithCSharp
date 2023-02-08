@@ -12,8 +12,8 @@ public record UpdateTodoRequest(
     // - Status: An enum of either: NotStarted, OnGoing, Completed
     string Name,
     string Description,
-    int UserID,
-    DateTime CreatedDate, 
+    Guid UserID,
+    DateTime CreatedDate,
     //DateTime UpdatedDate,
     int Status
 );

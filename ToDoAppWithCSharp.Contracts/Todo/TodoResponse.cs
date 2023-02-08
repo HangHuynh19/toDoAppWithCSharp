@@ -15,8 +15,8 @@ public record TodoResponse(
     Guid TodoID,
     string Name,
     string Description,
-    int UserID,
-    DateTime CreatedDate, 
+    Guid UserID,
+    DateTime CreatedDate,
     DateTime UpdatedDate,
     Status Status
 );

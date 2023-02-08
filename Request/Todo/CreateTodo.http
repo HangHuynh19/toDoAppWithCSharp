@@ -1,10 +1,11 @@
 POST http://localhost:5262/api/v1/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYjAzZTdiNC1iYzAwLTQ3NzgtOTZhYy05ODRlYTlhMDA4ODIiLCJlbWFpbCI6ImFAYi5jIiwianRpIjoiMDcxYTczMTktMjUwNS00NmY4LTlmNzAtNmFjMGZlNWIxZTdjIiwiZXhwIjoxNjc1ODY3OTA3LCJpc3MiOiJUb0RvQXBwV2l0aENTaGFycCIsImF1ZCI6IlRvRG9BcHBXaXRoQ1NoYXJwIn0.vAmupg-UeQoiEAtysnMrrz5GlyoPyo8Uwno8Zpjg4Hs
 Content-Type: application/json
 
 {
     "Name": "Shopping",
     "Description": "Buy ingredients for pho",
-    "UserID": 1,
+    "UserID": "870655f4-170d-4647-adbf-15a30360b7bf",
     //"CreatedDate": "2022-04-08T08:00:00",
     //"UpdatedDate": "2022-04-08T11:00:00",
     "Status": 0
@@ -15,3 +16,4 @@ GET http://localhost:5262/api/v1/todos/870655f4-170d-4647-adbf-15a30360b7bf
 
 ###
 GET http://localhost:5262/api/v1/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYjAzZTdiNC1iYzAwLTQ3NzgtOTZhYy05ODRlYTlhMDA4ODIiLCJlbWFpbCI6ImFAYi5jIiwianRpIjoiMDcxYTczMTktMjUwNS00NmY4LTlmNzAtNmFjMGZlNWIxZTdjIiwiZXhwIjoxNjc1ODY3OTA3LCJpc3MiOiJUb0RvQXBwV2l0aENTaGFycCIsImF1ZCI6IlRvRG9BcHBXaXRoQ1NoYXJwIn0.vAmupg-UeQoiEAtysnMrrz5GlyoPyo8Uwno8Zpjg4Hs

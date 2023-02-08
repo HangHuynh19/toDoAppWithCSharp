@@ -12,7 +12,7 @@ public record CreateTodoRequest(
     // - Status: An enum of either: NotStarted, OnGoing, Completed
     string Name,
     string Description,
-    int UserID,
+    Guid UserID,
     //DateTime CreatedDate, 
     //DateTime UpdatedDate,
     int Status

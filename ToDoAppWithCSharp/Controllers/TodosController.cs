@@ -18,7 +18,7 @@ public class TodosController : ApiController
     }
 
     [HttpPost]
-    public IActionResult CreateTodo(CreateTodoRequest request) 
+    public IActionResult CreateTodo(CreateTodoRequest request)
     {
         ErrorOr<Todo> requestToTodoResult = Todo.From(request);
 
@@ -30,7 +30,7 @@ public class TodosController : ApiController
         var todo = requestToTodoResult.Value;
         // TODO: save todo to database
         ErrorOr<Created> createTodoResult = _todoService.CreateTodo(todo);
-        
+
 
         return createTodoResult.Match(
             created => CreatedAtGetTodo(todo),
@@ -51,7 +51,7 @@ public class TodosController : ApiController
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetTodo(Guid id) 
+    public IActionResult GetTodo(Guid id)
     {
         ErrorOr<Todo> getTodoResult = _todoService.GetTodo(id);
 
@@ -62,7 +62,7 @@ public class TodosController : ApiController
     }
 
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateTodo(Guid id, UpdateTodoRequest request) 
+    public IActionResult UpdateTodo(Guid id, UpdateTodoRequest request)
     {
         ErrorOr<Todo> requestToTodoResult = Todo.From(id, request);
 
@@ -83,7 +83,7 @@ public class TodosController : ApiController
 
 
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteTodo(Guid id) 
+    public IActionResult DeleteTodo(Guid id)
     {
         ErrorOr<Deleted> deleteTodoResult = _todoService.DeleteTodo(id);
 
@@ -108,7 +108,7 @@ public class TodosController : ApiController
 
     private static List<TodoResponse> MapTodoListResponse(List<Todo> todoList)
     {
-        List<TodoResponse> todoListResponse = new(); 
+        List<TodoResponse> todoListResponse = new();
         foreach (var item in todoList)
         {
             todoListResponse.Add(new TodoResponse(
@@ -120,7 +120,7 @@ public class TodosController : ApiController
                 item.UpdatedDate,
                 item.Status));
         }
-        
+
         return todoListResponse;
     }
 
@@ -128,7 +128,7 @@ public class TodosController : ApiController
     {
         return CreatedAtAction(
             actionName: nameof(GetTodo),
-            routeValues: new { id = todo.TodoID},
+            routeValues: new { id = todo.TodoID },
             value: MapTodoResponse(todo)
         );
     }

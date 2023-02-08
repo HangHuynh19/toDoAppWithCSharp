@@ -1,10 +1,12 @@
 using ErrorOr;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ToDoAppWithCSharp.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/v1/todos")]
 public class ApiController : ControllerBase
 {
