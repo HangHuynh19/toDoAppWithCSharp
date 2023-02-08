@@ -7,20 +7,20 @@ using ToDoAppWithCSharp.ServiceErrors;
 
 namespace ToDoAppWithCSharp.Models;
 
-public class Todo 
+public class Todo
 {
     public const int MinNameLength = 3;
     public const int MaxNameLength = 260;
-    public Guid TodoID {get;}
-    public string Name {get;}
-    public string Description {get;}
-    public int UserID {get;}
-    public DateTime CreatedDate {get;} 
-    public DateTime UpdatedDate {get;}
+    public Guid TodoID { get; }
+    public string Name { get; }
+    public string Description { get; }
+    public Guid UserID { get; }
+    public DateTime CreatedDate { get; }
+    public DateTime UpdatedDate { get; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public Status Status {get;}
+    public Status Status { get; }
 
-    private Todo(Guid id, string name, string description, int userID, DateTime createdDated, DateTime updatedDate, Status status) 
+    private Todo(Guid id, string name, string description, Guid userID, DateTime createdDated, DateTime updatedDate, Status status)
     {
         TodoID = id;
         Name = name;
@@ -34,8 +34,8 @@ public class Todo
 
     public static ErrorOr<Todo> Create(
         string name,
-        string description, 
-        int userID, 
+        string description,
+        Guid userID,
         Status status,
         Guid? id = null,
         DateTime? createdDate = null)
@@ -66,7 +66,7 @@ public class Todo
     public static ErrorOr<Todo> From(CreateTodoRequest request)
     {
         Status status = ConvertFromIntToEnum(request.Status);
-        
+
         return Create(
             request.Name,
             request.Description,
@@ -78,22 +78,25 @@ public class Todo
     public static ErrorOr<Todo> From(Guid id, UpdateTodoRequest request)
     {
         Status status = ConvertFromIntToEnum(request.Status);
-        
+
         return Create(
             request.Name,
             request.Description,
             request.UserID,
-            status, 
+            status,
             id,
             request.CreatedDate
         );
     }
 
-    private static Status ConvertFromIntToEnum(int num){
+    private static Status ConvertFromIntToEnum(int num)
+    {
         Status status = Status.NotStarted;
 
-        foreach(int i in Enum.GetValues(typeof(Status))) {
-            if (num == i) {
+        foreach (int i in Enum.GetValues(typeof(Status)))
+        {
+            if (num == i)
+            {
                 status = (Status)i;
             }
         }
