@@ -29,7 +29,6 @@ public class Todo
         CreatedDate = createdDated;
         UpdatedDate = updatedDate;
         Status = status;
-
     }
 
     public static ErrorOr<Todo> Create(

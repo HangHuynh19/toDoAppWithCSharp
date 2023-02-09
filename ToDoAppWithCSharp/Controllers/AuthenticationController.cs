@@ -1,6 +1,8 @@
+using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoAppWithCSharp.Contracts.Authentication;
+using ToDoAppWithCSharp.Models;
 using ToDoAppWithCSharp.Services.Authentication;
 
 namespace ToDoAppWithCSharp.Controllers;
@@ -15,13 +17,12 @@ public class AuthenticationController : ApiController
         _authenticationService = authenticationService;
     }
 
+
     [HttpPost("signup")]
     public IActionResult Register(RegisterRequest request)
     {
-        var authResult = _authenticationService.Register(
-            request.Email,
-            request.Password
-        );
+        /* ErrorOr<User> requestToUserResult = Models.User.From(request);
+        var authResult = _authenticationService.Register(Models.User.From(request));
 
         var response = new AuthenticationResponse(
             authResult.UserId,
@@ -29,13 +30,41 @@ public class AuthenticationController : ApiController
             authResult.Token
         );
 
-        return Ok(response);
+        return Ok(response); */
+        ErrorOr<User> requestToUserResult = Models.User.From(request);
+
+        if (requestToUserResult.IsError)
+        {
+            return Problem(requestToUserResult.Errors);
+        }
+
+        var user = requestToUserResult.Value;
+        ErrorOr<AuthenticationResult> createUserResult = _authenticationService.Register(user);
+
+        return createUserResult.Match(
+            user => Ok(createUserResult),
+            errors => Problem(errors)
+        );
     }
 
     [HttpPost("signin")]
     public IActionResult Login(LoginRequest request)
     {
-        var authResult = _authenticationService.Login(
+        ErrorOr<User> requestToUserResult = Models.User.From(request);
+
+        if (requestToUserResult.IsError)
+        {
+            return Problem(requestToUserResult.Errors);
+        }
+
+        var user = requestToUserResult.Value;
+        ErrorOr<AuthenticationResult> createUserResult = _authenticationService.Login(user);
+
+        return createUserResult.Match(
+            user => Ok(createUserResult),
+            errors => Problem(errors)
+        );
+        /* var authResult = _authenticationService.Login(
             request.Email,
             request.Password
         );
@@ -46,6 +75,39 @@ public class AuthenticationController : ApiController
             authResult.Token
         );
 
-        return Ok(request);
+        return Ok(response); */
+    }
+
+    [HttpPut("changePassword")]
+    [Authorize]
+    public IActionResult ChangePassword(ChangePasswordRequest request)
+    {
+        ErrorOr<User> requestToUserResult = Models.User.From(request);
+
+        if (requestToUserResult.IsError)
+        {
+            return Problem(requestToUserResult.Errors);
+        }
+
+        var user = requestToUserResult.Value;
+        ErrorOr<AuthenticationResult> createUserResult = _authenticationService.Login(user);
+
+        return createUserResult.Match(
+            user => Ok(createUserResult),
+            errors => Problem(errors)
+        );
+
+        /* var authResult = _authenticationService.ChangePassword(
+            request.Email,
+            request.Password
+        );
+
+        var response = new AuthenticationResponse(
+            authResult.UserId,
+            authResult.Email,
+            authResult.Token
+        );
+
+        return Ok(response); */
     }
 }

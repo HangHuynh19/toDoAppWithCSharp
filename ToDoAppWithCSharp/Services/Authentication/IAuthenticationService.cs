@@ -1,7 +1,11 @@
+using ErrorOr;
+using ToDoAppWithCSharp.Models;
+
 namespace ToDoAppWithCSharp.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    AuthenticationResult Register(string email, string password);
-    AuthenticationResult Login(string email, string password);
+    ErrorOr<AuthenticationResult> Register(User user);
+    ErrorOr<AuthenticationResult> Login(User user);
+    ErrorOr<AuthenticationResult> ChangePassword(User user);
 }
