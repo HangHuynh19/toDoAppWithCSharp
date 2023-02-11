@@ -11,18 +11,24 @@ public class User
     public Guid UserId { get; }
     public string Email { get; }
     public string Password { get; }
+    public DateTime CreatedDate { get; }
+    public DateTime UpdatedDate { get; }
 
-    private User(Guid userId, string email, string password)
+    private User(Guid userId, string email, string password, DateTime createdDate, DateTime updatedDate)
     {
         UserId = userId;
         Email = email;
         Password = password;
+        CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
     }
 
     public static ErrorOr<User> Create(
         string email,
         string password,
-        Guid? userId = null)
+        Guid? userId = null,
+        DateTime? createdDate = null,
+        DateTime? updatedDate = null)
     {
         List<Error> errors = new();
 
@@ -44,7 +50,9 @@ public class User
         return new User(
             userId ?? Guid.NewGuid(),
             email,
-            password);
+            password,
+            createdDate ?? DateTime.UtcNow,
+            updatedDate ?? DateTime.UtcNow);
     }
 
     public static ErrorOr<User> From(RegisterRequest request)
@@ -59,7 +67,11 @@ public class User
     {
         return Create(
             request.Email,
-            request.Password
+            request.Password,
+            request.UserId,
+            request.CreatedDate,
+            request.UpdatedDate
+
         );
     }
 
@@ -67,7 +79,9 @@ public class User
     {
         return Create(
             request.Email,
-            request.Password
+            request.Password,
+            request.UserId,
+            request.CreatedDate
         );
     }
 }

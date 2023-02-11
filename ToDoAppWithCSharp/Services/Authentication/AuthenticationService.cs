@@ -20,7 +20,7 @@ public class AuthenticationService : IAuthenticationService
         var token = _jwtTokenGenerator.GenerateToken(userId, user.Email);
         _users.Add(user);
 
-        return new AuthenticationResult(userId, user.Email, token);
+        return new AuthenticationResult(userId, user.Email, user.CreatedDate, user.UpdatedDate, token);
     }
 
     public ErrorOr<AuthenticationResult> Login(User user)
@@ -36,7 +36,7 @@ public class AuthenticationService : IAuthenticationService
             }
         }
 
-        return new AuthenticationResult(userId, user.Email, _jwtTokenGenerator.GenerateToken(userId, user.Email));
+        return new AuthenticationResult(userId, user.Email, user.CreatedDate, user.UpdatedDate, _jwtTokenGenerator.GenerateToken(userId, user.Email));
     }
 
     public ErrorOr<AuthenticationResult> ChangePassword(User user)
@@ -44,6 +44,6 @@ public class AuthenticationService : IAuthenticationService
         int index = _users.FindIndex(u => u.Email == user.Email);
         _users[index] = user;
 
-        return new AuthenticationResult(user.UserId, user.Email, _jwtTokenGenerator.GenerateToken(user.UserId, user.Email));
+        return new AuthenticationResult(user.UserId, user.Email, user.CreatedDate, user.UpdatedDate, _jwtTokenGenerator.GenerateToken(user.UserId, user.Email));
     }
 }

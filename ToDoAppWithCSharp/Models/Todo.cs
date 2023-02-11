@@ -37,7 +37,8 @@ public class Todo
         Guid userID,
         Status status,
         Guid? id = null,
-        DateTime? createdDate = null)
+        DateTime? createdDate = null,
+        DateTime? updatedDate = null)
     {
         List<Error> errors = new();
 
@@ -57,7 +58,7 @@ public class Todo
             description,
             userID,
             createdDate ?? DateTime.UtcNow,
-            DateTime.UtcNow,
+            updatedDate ?? DateTime.UtcNow,
             status
         );
     }
