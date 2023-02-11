@@ -16,4 +16,15 @@ public static class Errors
             description: "Todo not found"
         );
     }
+
+    public static class User
+    {
+        public static Error InvalidPassword => Error.Validation(
+            code: "User.InvalidPassword",
+            description: $"Password must be at least {Models.User.MinPasswordLength} characters.");
+
+        public static Error InvalidEmail => Error.Validation(
+            code: "User.InvalidEmail",
+            description: $"Invalid email");
+    }
 }
