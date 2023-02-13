@@ -1,9 +1,12 @@
+using ToDoAppWithCSharp.Models;
+
 namespace ToDoAppWithCSharp.Services.Authentication;
 
 public record AuthenticationResult(
-    Guid UserId,
+    /* Guid UserId,
     string Email,
     DateTime CreatedDate,
-    DateTime UpdatedDate,
+    DateTime UpdatedDate, */
+    User user,
     string Token
 );

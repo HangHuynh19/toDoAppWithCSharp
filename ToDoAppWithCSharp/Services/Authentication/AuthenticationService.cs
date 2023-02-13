@@ -28,13 +28,10 @@ public class AuthenticationService : IAuthenticationService
         var userResult = User.Create(user.Email, user.Password);
         _userRepository.AddUser(userResult);
 
-        var token = _jwtTokenGenerator.GenerateToken(userResult.Value.UserId, userResult.Value.Email);
+        var token = _jwtTokenGenerator.GenerateToken(userResult.Value);
 
         return new AuthenticationResult(
-            userResult.Value.UserId,
-            userResult.Value.Email,
-            userResult.Value.CreatedDate,
-            userResult.Value.UpdatedDate,
+            userResult.Value,
             token);
     }
 
@@ -50,9 +47,9 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.InvalidUsernameOrPassword;
         }
 
-        var token = _jwtTokenGenerator.GenerateToken(user.UserId, user.Email);
+        var token = _jwtTokenGenerator.GenerateToken(user);
 
-        return new AuthenticationResult(user.UserId, user.Email, user.CreatedDate, user.UpdatedDate, token);
+        return new AuthenticationResult(user, token);
     }
 
     public ErrorOr<AuthenticationResult> ChangePassword(User inputUser, string newPassword)
@@ -70,12 +67,10 @@ public class AuthenticationService : IAuthenticationService
         }
 
         user = _userRepository.UpdateUserPassword(inputUser, newPassword);
+        var token = _jwtTokenGenerator.GenerateToken(user);
 
         return new AuthenticationResult(
-            user.UserId,
-            user.Email,
-            user.CreatedDate,
-            user.UpdatedDate,
-            _jwtTokenGenerator.GenerateToken(user.UserId, user.Email));
+            user,
+            token);
     }
 }
