@@ -42,7 +42,7 @@ public class AuthenticationService : IAuthenticationService
     {
         if (_userRepository.GetUserByEmail(inputUser.Email) is not User user)
         {
-            return Errors.User.UserAlreadyExists;
+            return Errors.User.UserNotExists;
         }
 
         if (user.Password != inputUser.Password)
@@ -57,19 +57,19 @@ public class AuthenticationService : IAuthenticationService
 
     public ErrorOr<AuthenticationResult> ChangePassword(User inputUser, string newPassword)
     {
-        if (_userRepository.GetUserByEmail(inputUser.Email) == null)
+        if (_userRepository.GetUserByEmail(inputUser.Email) is not User user)
         {
             return Errors.User.UserNotExists;
         }
 
-        /* User user = _userRepository.GetUserByEmail(inputUser.Email);
+        //User user = _userRepository.GetUserByEmail(inputUser.Email);
 
         if (user.Password != inputUser.Password)
         {
             return Errors.User.InvalidUsernameOrPassword;
-        } */
+        }
 
-        User user = _userRepository.UpdateUserPassword(inputUser, newPassword);
+        user = _userRepository.UpdateUserPassword(inputUser, newPassword);
 
         return new AuthenticationResult(
             user.UserId,
