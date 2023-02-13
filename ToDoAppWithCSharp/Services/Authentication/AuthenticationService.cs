@@ -28,13 +28,10 @@ public class AuthenticationService : IAuthenticationService
         var userResult = User.Create(user.Email, user.Password);
         _userRepository.AddUser(userResult);
 
-        var token = _jwtTokenGenerator.GenerateToken(userResult.Value.UserId, userResult.Value.Email);
+        var token = _jwtTokenGenerator.GenerateToken(userResult.Value);
 
         return new AuthenticationResult(
-            userResult.Value.UserId,
-            userResult.Value.Email,
-            userResult.Value.CreatedDate,
-            userResult.Value.UpdatedDate,
+            userResult.Value,
             token);
     }
 
@@ -42,7 +39,7 @@ public class AuthenticationService : IAuthenticationService
     {
         if (_userRepository.GetUserByEmail(inputUser.Email) is not User user)
         {
-            return Errors.User.UserAlreadyExists;
+            return Errors.User.UserNotExists;
         }
 
         if (user.Password != inputUser.Password)
@@ -50,32 +47,30 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.InvalidUsernameOrPassword;
         }
 
-        var token = _jwtTokenGenerator.GenerateToken(user.UserId, user.Email);
+        var token = _jwtTokenGenerator.GenerateToken(user);
 
-        return new AuthenticationResult(user.UserId, user.Email, user.CreatedDate, user.UpdatedDate, token);
+        return new AuthenticationResult(user, token);
     }
 
     public ErrorOr<AuthenticationResult> ChangePassword(User inputUser, string newPassword)
     {
-        if (_userRepository.GetUserByEmail(inputUser.Email) == null)
+        if (_userRepository.GetUserByEmail(inputUser.Email) is not User user)
         {
             return Errors.User.UserNotExists;
         }
 
-        /* User user = _userRepository.GetUserByEmail(inputUser.Email);
+        //User user = _userRepository.GetUserByEmail(inputUser.Email);
 
         if (user.Password != inputUser.Password)
         {
             return Errors.User.InvalidUsernameOrPassword;
-        } */
+        }
 
-        User user = _userRepository.UpdateUserPassword(inputUser, newPassword);
+        user = _userRepository.UpdateUserPassword(inputUser, newPassword);
+        var token = _jwtTokenGenerator.GenerateToken(user);
 
         return new AuthenticationResult(
-            user.UserId,
-            user.Email,
-            user.CreatedDate,
-            user.UpdatedDate,
-            _jwtTokenGenerator.GenerateToken(user.UserId, user.Email));
+            user,
+            token);
     }
 }
