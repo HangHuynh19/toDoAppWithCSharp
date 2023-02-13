@@ -1,49 +1,81 @@
 using ErrorOr;
 using ToDoAppWithCSharp.Common.Interfaces.Authentication;
+using ToDoAppWithCSharp.Common.Interfaces.Persistence;
 using ToDoAppWithCSharp.Models;
+using ToDoAppWithCSharp.ServiceErrors;
 
 namespace ToDoAppWithCSharp.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private static readonly List<User> _users = new();
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IUserRepository _userRepository;
 
-    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator)
+    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
+        _userRepository = userRepository;
     }
 
     public ErrorOr<AuthenticationResult> Register(User user)
     {
-        Guid userId = Guid.NewGuid();
-        var token = _jwtTokenGenerator.GenerateToken(userId, user.Email);
-        _users.Add(user);
-
-        return new AuthenticationResult(userId, user.Email, user.CreatedDate, user.UpdatedDate, token);
-    }
-
-    public ErrorOr<AuthenticationResult> Login(User user)
-    {
-        Guid userId = Guid.Empty;
-
-        foreach (var u in _users)
+        if (_userRepository.GetUserByEmail(user.Email) is not null)
         {
-            if (u.Email == user.Email)
-            {
-                userId = u.UserId;
-                break;
-            }
+            //throw new Exception("User already exists"); //TODO: use ErrorOr here
+            return Errors.User.UserAlreadyExists;
         }
 
-        return new AuthenticationResult(userId, user.Email, user.CreatedDate, user.UpdatedDate, _jwtTokenGenerator.GenerateToken(userId, user.Email));
+        var userResult = User.Create(user.Email, user.Password);
+        _userRepository.AddUser(userResult);
+
+        var token = _jwtTokenGenerator.GenerateToken(userResult.Value.UserId, userResult.Value.Email);
+
+        return new AuthenticationResult(
+            userResult.Value.UserId,
+            userResult.Value.Email,
+            userResult.Value.CreatedDate,
+            userResult.Value.UpdatedDate,
+            token);
     }
 
-    public ErrorOr<AuthenticationResult> ChangePassword(User user)
+    public ErrorOr<AuthenticationResult> Login(User inputUser)
     {
-        int index = _users.FindIndex(u => u.Email == user.Email);
-        _users[index] = user;
+        if (_userRepository.GetUserByEmail(inputUser.Email) is not User user)
+        {
+            return Errors.User.UserAlreadyExists;
+        }
 
-        return new AuthenticationResult(user.UserId, user.Email, user.CreatedDate, user.UpdatedDate, _jwtTokenGenerator.GenerateToken(user.UserId, user.Email));
+        if (user.Password != inputUser.Password)
+        {
+            return Errors.User.InvalidUsernameOrPassword;
+        }
+
+        var token = _jwtTokenGenerator.GenerateToken(user.UserId, user.Email);
+
+        return new AuthenticationResult(user.UserId, user.Email, user.CreatedDate, user.UpdatedDate, token);
+    }
+
+    public ErrorOr<AuthenticationResult> ChangePassword(User inputUser, string newPassword)
+    {
+        if (_userRepository.GetUserByEmail(inputUser.Email) == null)
+        {
+            return Errors.User.UserNotExists;
+        }
+
+        /* User user = _userRepository.GetUserByEmail(inputUser.Email);
+
+        if (user.Password != inputUser.Password)
+        {
+            return Errors.User.InvalidUsernameOrPassword;
+        } */
+
+        User user = _userRepository.UpdateUserPassword(inputUser, newPassword);
+
+        return new AuthenticationResult(
+            user.UserId,
+            user.Email,
+            user.CreatedDate,
+            user.UpdatedDate,
+            _jwtTokenGenerator.GenerateToken(user.UserId, user.Email));
     }
 }

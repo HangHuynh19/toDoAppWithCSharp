@@ -26,5 +26,17 @@ public static class Errors
         public static Error InvalidEmail => Error.Validation(
             code: "User.InvalidEmail",
             description: $"Invalid email");
+
+        public static Error UserAlreadyExists => Error.Validation(
+            code: "User.UserAlreadyExists",
+            description: $"User already exists.");
+
+        public static Error InvalidUsernameOrPassword => Error.Validation(
+            code: "User.InvalidUsernameOrPassword",
+            description: $"Username or password is not correct.");
+
+        public static Error UserNotExists => Error.Validation(
+            code: "User.UserNotExists",
+            description: $"This user is not found.");
     }
 }

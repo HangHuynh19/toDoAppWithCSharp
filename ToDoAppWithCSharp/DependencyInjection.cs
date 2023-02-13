@@ -10,6 +10,7 @@ using ToDoAppWithCSharp.Services.Todos;
 using ToDoAppWithCSharp.Models;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using ToDoAppWithCSharp.Common.Interfaces.Persistence;
 
 namespace ToDoAppWithCSharp;
 
@@ -23,7 +24,7 @@ public static class ToDoAppWithCSharp
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITodoService, TodoService>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 

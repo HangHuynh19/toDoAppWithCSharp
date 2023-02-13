@@ -90,7 +90,7 @@ public class AuthenticationController : ApiController
         }
 
         var user = requestToUserResult.Value;
-        ErrorOr<AuthenticationResult> createUserResult = _authenticationService.Login(user);
+        ErrorOr<AuthenticationResult> createUserResult = _authenticationService.ChangePassword(user, request.NewPassword);
 
         return createUserResult.Match(
             user => Ok(createUserResult),
